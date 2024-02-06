@@ -1,0 +1,160 @@
+\section{Introduction}
+% -----------------------------------------------------------
+\stoptocentries  % Personal macro: Following sections shouldn't appear in toc
+% -----------------------------------------------------------
+\subsection*{Contents of the thesis}\;
+
+The Hodge Decomposition theorem for compact Kähler manifolds is a fundamental theorem of the Hodge
+Theory. It provides a decomposition of the de Rahm cohomology groups into suitable Dolbeault
+cohomology groups, thus yielding a connection between the topology and the complex structure of a
+compact Kähler manifold.
+\begin{thm}[Hodge Decomposition]
+	For a compact Kähler manifold $X$, there is a direct sum decomposition
+	\begin{align*}
+		H^k_{dR}(X,\mathbb{C}) = \bigoplus_{p+q=k} H^{p,q}_{\opartial}(X,\mathbb{C}).
+	\end{align*}
+\end{thm}
+The primary objective of this thesis will be the elaboration of the proof of this fundamental
+theorem. In order to achieve this, we will have to introduce the needed theory first. We are going
+to start by presenting the consequences of the existence of an almost complex structure and a
+compatible euclidean inner product on a real vector space. For this purpose, we will mainly use the
+tools of Linear Algebra.
+
+With this, we will be able to define the local versions of the \emph{Hodge star operator}
+$\hodgestar$ and the \emph{Lefschetz} and dual \emph{Lefschetz operators} $L$ and $\Lambda$.
+
+Afterwards, our focus is going to shift to complex manifolds and their different tangent bundles.
+Although it is assumed that the reader is already familiar with the definition and basic properties
+of complex manifolds, we will begin with the definition and also the elaboration of the properties
+of hermitian manifolds, which are the complex counterparts of Riemannian manifolds.
+
+After we have used our local findings for the operators mentioned above to define similarly named
+global operators for hermitian manifolds, we will also introduce an \emph{$L^2$-metric} that will be
+used to generalize the idea of adjoint operators to \emph{formal adjoint opertors}. We will be
+particularly interested in the formal adjoint operators of the exterior derivative $d$ and the
+Dolbeault operators $\partial$ and $\opartial$, which will be noted as $d^*,\partial^*$ and
+$\opartial^*$. 
+
+Those formal adjoint operators will particularly interest us because they appear in the \emph{Kähler
+	identities}. These identities relate the Dolbeault operators and their formal adjoints to each other
+using the dual Lefschetz operator. 
+\begin{thm}
+	On a compact Kähler manifold, we have the identities
+	\begin{align*}
+		[\Lambda,\opartial] = -i\partial^*, \quad [\Lambda,\partial] = i\opartial^*,
+	\end{align*}
+	with the Lie bracket being defined as the commutator.
+\end{thm}
+Next, we are going to introduce the theory of \emph{harmonic differential forms}. In order to do so,
+we will define the \emph{Laplacians} $\Delta_d, \Delta_\partial$ and $\Delta_\opartial$ and work out
+their properties. We will then use the \emph{Kähler identities} to prove the next important theorem.
+\begin{thm}
+	For the Laplacians $\Delta_d, \Delta_\partial$ and $\Delta_\opartial$ on a compact Kähler manifold,
+	we have the following relation
+	\begin{align*}
+		\frac{1}{2}\Delta_d = \Delta_\partial = \Delta_\opartial.
+	\end{align*}
+\end{thm}
+Since harmonic and $\Delta_\opartial$-harmonic forms will be defined as forms annihilated by
+$\Delta_d$ and $\Delta_\opartial$, respectively, this theorem shows that those two notions are
+equivalent for Kähler manifolds. Furthermore, we will use this theorem to establish the following
+corollary, which will be crucial for proving the \emph{Hodge Decomposition} theorem.
+\begin{cor}
+	For the compact Kähler manifold $X$, the complex harmonic differential $k$-forms $\mathcal{H}^k(X)$
+	decompose as 
+	\begin{align*}
+		\mathcal{H}^k(X) = \bigoplus_{p+q=k}\mathcal{H}^{p,q}(X),
+	\end{align*}
+	with $\mathcal{H}^{p,q}(X)$ being the harmonic differential forms of type $(p,q)$.
+\end{cor}
+The final statements needed for our proof of the \emph{Hodge Decomposition} theorem will be the
+\emph{Hodge Isomorphism theorems}, which enable us to apply the findings of the harmonic forms
+theory to the de Rahm and Dolbeault cohomologies by providing two isomorphisms.
+\begin{thm}[Hodge Isomorphism theorem \MakeUppercase{\romannumeral 1}]
+	The natural mapping
+	\begin{align*}
+		\mathcal{H}^k(X) \rightarrow H^k_{dR}(X,\mathbb{C}), \;\enspace
+		\alpha \mapsto [\alpha]
+	\end{align*}
+	is an isomorphism. In particular, any class of closed forms in $H^k_{dR}(X,\mathbb{C})$ has a
+	unique harmonic
+	representative.
+\end{thm}
+
+\begin{thm}[Hodge Isomorphism theorem \MakeUppercase{\romannumeral 2}]
+	The natural mapping
+	\begin{align*}
+		\mathcal{H}^{p,q}(X) \rightarrow H^{p,q}_\opartial(X,\mathbb{C}),\; \enspace \alpha \mapsto
+		[\alpha]
+	\end{align*}
+	is an isomorphism. In particular, any class of $\opartial$-closed forms in
+	$H^{p,q}_\opartial(X,\mathbb{C})$
+	has a unique harmonic representative.
+\end{thm}
+After these two isomorphism theorems are proven, we already have the \emph{Hodge Decomposition}
+given as an isomorphism and in order to get the above \emph{Hodge Decomposition} theorem, we only
+need to prove the independence of the Kähler metric.
+
+To conclude this thesis, we will then provide an application of the \emph{Hodge Decomposition}. We
+are going to show that the \emph{Hopf surfaces}, which are compact 2-dimensional complex manifolds,
+can not be equipped with a Kähler metric.
+
+\subsection*{Remarks on the implementation}\;
+
+For the \emph{Hodge Decomposition}, several different proofs are already known. Therefore, the idea
+of this thesis is the collection and the coherent presentation of one of these possible proofs from
+the perspective of an undergraduate student who is already familiar with some of the basic concepts
+of complex and algebraic geometry.
+
+In this context, this thesis broadly follows the proof presented in \emph{Claire Voisin's} book
+\emph{Hodge Theory and Complex Algebraic Geometry I}. However, other popular sources have also
+influenced this thesis. Therefore, we will reference similar or equal statements in this literature
+whenever possible. This is done to allow for the possibility of verification and to encourage the
+reader to engage more deeply with the content.
+
+Also, since multiple different notation conventions exist in complex geometry, we will try to stick
+to the notation suggested by \emph{Voisin} in her book. However, we will also provide the reader
+with explanations for the used notation throughout the thesis so that even the unfamiliar reader
+will be able to follow.
+
+\subsection*{Conventions}\;
+
+Throughout the thesis, we are always going to limit our discussion to differentiable manifolds
+without border. In order to have a Riemannian metric on every differentiable manifold, we are also
+only going to allow paracompact manifolds. 
+
+Additionally, we are going to adhere to the following meaning of the used symbols.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{cp{0.6\textwidth}}
+		$\mathbb{N}$ & Natural numbers, including 0\\
+		$\subset$ & Not necessarily proper subset \\
+		$\subsetneq$ & Proper subset\\
+		$\into$ & Injection or monomorphism\\
+		$\onto$ & Surjection or epimorphism\\
+	\end{tabular}
+\end{table}
+
+Also, the uppercase letters $J$ and $K$ will usually denote multi-indices except for one instance,
+when $J$ denotes an almost complex structure. Additionally, if there are uppercase letters in the
+index, they also denote multi-indices. For a basis vector $v_j$, we will write $v^j$ for the dual
+basis vector.
+
+\subsection*{Acknowledgments}\;
+
+I want to thank all the nice people for helping me (...)
+\vspace*{1.3cm}
+\begin{flushright}
+	\emph{First name last name}\\
+	\emph{Freiburg im Breisgau}\\
+	\emph{August 10, 2023}
+\end{flushright}
+
+% -----------------------------------------------------------
+\starttocentries   % Personal macro: Add following sections to toc
+% -----------------------------------------------------------
+
+
+
+

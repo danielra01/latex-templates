@@ -1,0 +1,252 @@
+\documentclass[12pt,a4paper,twoside]{amsart}  % Package for mathematical article
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Nice Font and some basic things
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+\usepackage[nospace]{varioref}
+\usepackage[ngerman,english]{babel}
+\usepackage{mathrsfs}  % For using mathsrc and not overwriting mathcal
+\usepackage[top=4cm,bottom=3.5cm,left=3.5cm,right=3cm]{geometry}
+%\usepackage{graphicx}
+%\usepackage{newunicodechar}
+
+\usepackage{parskip} % Use spaces between paragraphs instead of parindent
+\setlength{\parskip}{0.3\baselineskip plus 2pt} 
+\raggedbottom % Do not stretch content on a page instead leave an empty space in the bottom 
+\sloppy  % This can help with linebreaks but is possibly bad for overfull hboxes
+\usepackage{etoolbox} % to do the following
+\AtBeginEnvironment{proof}{\vspace*{-2\parskip}} % Avoid big space at begin of proof
+
+% Nice Referencing
+\usepackage{hyperref} % Se hypersetup below
+\urlstyle{same}
+\usepackage[noabbrev]{cleveref}
+
+% Math packages
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{derivative} % For partial derivatives with \pdv{function}{variables}
+
+% New math commands that are formated for math mode
+\DeclareMathOperator{\img}{Im}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\id}{Id}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\hodgestar}{\ast}
+\DeclareMathOperator{\Hom}{Hom}
+%\DeclareMathOperator{\opartial}{{\overline{\partial}}}
+
+% Other commands
+\newcommand{\interior}[1]{{\kern0pt#1}^{\mathrm{o}}}
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\onto}{\twoheadrightarrow}
+\newcommand{\opartial}{{\overline{\partial}}}
+
+
+\usepackage{enumitem} % Control the format of \enumerate \itemize and \description
+\renewcommand\labelitemi{--} % This doesn't belong to package enumitem but can be used to customize itemize
+
+% Definitions for amsthm
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[subsection]
+\newtheorem*{thm*}{Theorem}
+\newtheorem{lm}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{fact}[thm]{Fact}
+\newtheorem{q}[thm]{Question}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{nota}[thm]{Notation}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{xca}[thm]{Exercise}
+\newtheorem*{set}{Setting}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\Crefname{thm}{Theorem}{Theorems}
+\Crefname{lm}{Lemma}{Lemmas}
+\Crefname{prop}{Proposition}{Propositions}
+\Crefname{cor}{Corollary}{Corollaries}
+\Crefname{fact}{Fact}{Facts}
+\Crefname{q}{Question}{Questions}
+\Crefname{defn}{Definition}{Definitions}
+\Crefname{nota}{Notation}{Notations}
+\Crefname{exmp}{Example}{Examples}
+\Crefname{xca}{Exercise}{Exercises}
+\Crefname{rem}{Remark}{Remarks}
+
+\Crefname{enumi}{Property}{Properties} % For a nice referenceing of lists (label needs to be after \item)
+\newcommand{\creflmpart}[2]{%
+	\nameCref{#1}~\hyperref[#2]{\labelcref*{#1}~(\ref*{#2})}%
+}
+
+\Crefname{equation}{}{} % Set referencing style of equation to empy
+
+\usepackage{tikz-cd} % For plots and drawings
+\usetikzlibrary{decorations.markings}
+
+\usepackage{float} % positioning figures and tables
+\renewcommand\thepart{\rm \Roman{part}} % Nicer indentation of lists
+\setdescription{labelindent=1 em, leftmargin=2 em}
+\setitemize[1]{labelindent=1 em, leftmargin=2 em}
+\setenumerate[1]{labelindent=0cm, leftmargin=*, widest=iiii}
+
+
+% Bibliography
+\usepackage[
+backend=biber,
+style=alphabetic,
+maxnames=10,
+maxalphanames=10]{biblatex}
+\addbibresource{../bibliography.bib}
+
+% TODO functionality:
+\usepackage{xcolor}
+\newcommand\TODO[1]{\textcolor{red}{#1}}
+% If all todo should be hidden at once just uncomment this line
+% \renewcommand\TODO[1]{}
+\newcommand\CITATION[1]{\textcolor{green}{#1}}
+
+
+% Begin of document
+\title{TITEL OF THESIS}
+\author{First Name Last name}
+\date{}
+
+\setcounter{tocdepth}{2}  % Show sections and subsections in table of contents
+\numberwithin{equation}{section} % Equations should have their own counter and should be numbered within a section to get (sectionnumber.equation)
+
+
+\makeatletter %----------------------------------------------
+
+% Customize Table of contents
+\def\l@section{\@tocline{1}{7pt}{1pc}{}{}}
+\def\l@subsection{\@tocline{2}{0pt}{1.6pc}{}{}}
+
+\renewcommand{\tocsection}[3]{%
+	\indentlabel{\@ifnotempty{#2}{\makebox[1.4em][l]{%
+				\bfseries\ignorespaces#1 #2.\hfill}}}\bfseries#3}
+\renewcommand{\tocsubsection}[3]{%
+	\indentlabel{\@ifnotempty{#2}{\makebox[2em][l]{%
+	\ignorespaces#1 #2.\hfill}}}#3}
+
+\renewcommand\section{\@startsection{section}{1}%
+	\z@{.7\linespacing\@plus\linespacing}{.8\linespacing}%
+	{\normalfont\scshape\centering}}
+
+\newcommand{\makeheaders}{%
+	\begingroup
+	\toks@\@xp{\shortauthors}\@temptokena\@xp{\shorttitle}%
+	\toks4{\def\\{ \ignorespaces}}% defend against questionable usage
+	\edef\@tempa{%
+		\@nx\markboth{\the\toks4
+			\@nx\MakeUppercase{\the\toks@}}{\the\@temptokena}}%
+	\@tempa
+	\endgroup
+}
+
+% Setup hyperref
+\hypersetup{
+	pdfauthor={\authors},
+	pdftitle={\@title},
+	colorlinks,
+	linkcolor=[rgb]{0.2,0.2,0.6},
+	citecolor=[rgb]{0.2,0.6,0.2},
+	urlcolor=[rgb]{0.6,0.2,0.2}}
+\makeatother
+%------------------------------------------------------------
+
+% commands for temporarily enabling and disabling toc entires
+\let\oldaddcontentsline\addcontentsline
+\newcommand{\stoptocentries}{\renewcommand{\addcontentsline}[3]{}}
+\newcommand{\starttocentries}{\let\addcontentsline\oldaddcontentsline}
+
+% Begin of document -----------------------------------------
+\begin{document}
+	\newgeometry{
+		includeall,
+		bindingoffset=0cm,
+		margin=2cm,
+		marginparsep=0cm,
+		marginparwidth=0cm,
+		top=0cm
+	}
+	\begin{titlepage}
+		\vspace*{3cm}
+		\centering{
+		%\includegraphics[scale=0.35]{../unilogo.png}\\  % Uni Logo is forbidden by guidelines of the institution
+		\vspace*{1.8cm}
+		\hrulefill \\
+		\vspace*{0.8cm}
+		\textbf{\Large{Titel der Arbeit}}\\
+		\vspace*{0.4cm}
+		\hrulefill\\
+		\vspace*{1.8cm}
+		\large{Bachelor-Arbeit im Fach Mathematik \\
+			zur Erlangung des akademischen Grades \\
+			\vspace*{1cm}
+			,,Bachelor of Science'' \\
+			\vspace*{1cm}
+			der Fakultät für Mathematik und Physik \\
+			der Albert-Ludwigs-Universität Freiburg i.Br.}\\
+			\vspace*{3cm}
+		\large{vorgelegt von \\
+		Name} \\
+		%\vspace*{0.5cm}
+		\large{Matrikelnummer: 123456\\}
+		\vspace*{3cm}
+		\large{im Sommersemester 2023\\
+		betreut durch\\
+		Prof. Dr. Dozent\\}
+		\vspace*{1cm}
+	}
+	\end{titlepage}
+	\restoregeometry
+	\thispagestyle{empty}
+	\cleardoublepage\null
+	\pagenumbering{roman}
+	\addtocounter{page}{-1} 
+	\makeheaders
+	\include{preliminaries}
+	\vspace*{-0.9cm}
+	\tableofcontents
+	\newpage
+	\pagenumbering{arabic}
+	\include{local-theory}
+	\newpage
+	More contents
+	\newpage
+	\include{german-sum}
+	\newpage
+	\thispagestyle{empty}
+	\printbibliography
+	\vfill
+	\newpage
+	\thispagestyle{empty}
+	
+	\begin{center}
+		\textbf{Eigenständigkeitserklärung}
+	\end{center}
+	Hiermit erkläre ich, dass ich diese Abschlussarbeit mit dem Titel \glqq{\emph{The Hodge Decomposition for Compact Kähler Manifolds}}\grqq{} selbstständig verfasst habe, keine anderen als die angegebenen Quellen verwendet habe und alle Stellen, die wörtlich oder sinngemäß aus veröffentlichten Schriften entnommen wurden, als solche kenntlich gemacht habe. Darüber hinaus erkläre ich, dass diese Abschlussarbeit nicht, auch nicht auszugsweise, bereits für eine andere Prüfung angefertigt wurde. \\
+	\\
+	\begin{flushleft}
+		\makebox[.4\textwidth]{\hrulefill}\hfill \makebox[.4\textwidth]{\hrulefill}\\
+		\makebox[.4\textwidth]{(Ort, Datum)}\hfill
+		\makebox[.4\textwidth]{Vorname Nachname}\\
+	\end{flushleft}
+	
+	\vspace{3cm}
+	
+	\begin{center}
+		\textbf{Erklärung der Übereinstimmung von digitaler und gedruckter Version}
+	\end{center}
+	Hiermit versichere ich, dass die eingereichte elektronische und gedruckte Version meiner Bachelorarbeit mit dem Titel \glqq{\emph{The Hodge Decomposition for Compact Kähler Manifolds}}\grqq{} über\-ein\-stim\-men. Insbesondere stimmen die beiden gedruckten Exemplare überein. \\
+	
+	\begin{flushleft}
+		\makebox[.4\textwidth]{\hrulefill}\hfill \makebox[.4\textwidth]{\hrulefill}\\
+		\makebox[.4\textwidth]{(Ort, Datum)}\hfill
+		\makebox[.4\textwidth]{Vorname Nachname}\\
+	\end{flushleft}
+\end{document}

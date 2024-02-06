@@ -1,0 +1,677 @@
+\section{Local Theory}
+This chapter aims to provide the reader with some of the essential notions and tools for the local
+theory needed to form a comprehensive understanding of the concept of hermitian manifolds and 
+in particular, Kähler manifolds. The main focus will be on complex vector spaces and hermitian 
+forms on those spaces and also the tools linear algebra provides.
+
+Later, we are going to focus on the different tangent bundles of complex manifolds, which are
+collections of vector spaces that vary in a geometric way on the manifold. Therefore, most of the 
+notions and tools we are going to introduce in this chapter will be translated into the global 
+context later.
+
+The main goal of this chapter will be the definition of the local Hodge star operator \nolinebreak
+$\hodgestar$ and the definition of the local Lefschetz and dual Lefschetz operator $L$ and 
+$\Lambda$. For this purpose, we will start by providing a brief overview of the topic of 
+complexification of vector spaces. Afterwards, we will focus on euclidean and hermitian vector 
+spaces. Finally, we will conclude with the definition of the operators mentioned above.
+
+The reader should be aware that this chapter is based on the similarly named chapter in Daniel
+Huybrechts' \emph{Complex Geometry} \cite{Huybrechts2004}, although the level of detail found there
+is not to be expected.
+
+\subsection{Complexification of vector spaces}\;
+
+To simplify the notation, we are going to assume the following setting for the remainder of this
+section.
+\begin{set}
+	Let $V$ denote a real $n$-dimensional vector space. Also, assume that $V$ is an almost complex
+	vector space, i.e. $V$ is equipped with an 
+	endomorphism $I: V\rightarrow V$ such that $I^2 = -\id$. This endomorphism is called the almost
+	complex structure of $V$.
+\end{set}
+
+Using this almost complex structure, we can also think of $V$ as a complex vector space with the
+$\mathbb{C}$-module structure defined as $(a+ib)\cdot v = a v + b I(v)$ for all $a,b \in
+\mathbb{R}$. For this complex vector space, we will write $(V,I)$. With the product rule for the
+determinant, we can calculate
+\begin{align*}
+	\det(I)^2 = \det(I^2) = \det(-\id) = (-1)^n.
+\end{align*}
+Since $\det(I)$ is real, we conclude that $n = 2m$ for some $m \in \mathbb{N}$.
+
+Furthermore, $V$ and $(V,I)$ are equal as sets and if $(v_1,\dots,v_d)$ is a complex basis of
+$(V,I)$, it is immediate that $(v_1,I(v_1),\dots,v_d,I(v_d))$ is a real basis of $V$. Therefore,
+their dimensions relate as
+\begin{align*}
+	\dim_\mathbb{C} (V,I) = d = \frac{1}{2} \dim_\mathbb{R} V = \frac{1}{2}n = m.
+\end{align*}
+
+Additionally, as an almost complex vector space, $V$ is endowed with a natural orientation. This
+boils down to the fact that the real space $\mathbb{C}^m$ has a natural orientation given by the
+basis $(e_1, ie_1, \dots e_m, ie_m)$, with the $e_1,\dots,e_m$ being the standard basis vectors (cf.
+\cite[Corollary 1.2.3]{Huybrechts2004}).
+
+At the same time, it is possible to construct a different complex vector space using $V$. 
+\begin{defn}
+	The \emph{complexification} $V_\mathbb{C}$ of $V$ is defined as
+	$V_\mathbb{C} := V \otimes_\mathbb{R} \mathbb{C}$.
+\end{defn}
+Let $\left(v_1, \dots, v_n\right)$ be a real basis of $V$. With the properties of the tensor
+product, it is $\left(v_1 \otimes 1, \dots , v_n \otimes 1\right)$ a complex basis of
+$V_\mathbb{C}$. This shows that there exists an inclusion $V \into V_\mathbb{C}$ and for the
+dimension of $V_\mathbb{C}$, we get
+\begin{align*}
+	\dim_\mathbb{C} V_\mathbb{C} = n = \dim_\mathbb{R} V.
+\end{align*}
+Now, the almost complex structure $I$ can be linearly extended to an almost complex structure
+$I_\mathbb{C}$ on $V_\mathbb{C}$. This is defined as $I_\mathbb{C} (v\otimes 1 + w \otimes i) :=
+I(v) \otimes 1 + I(w)\otimes i$, and it is evident that this linear extension also has the property
+$I_\mathbb{C}^2 = -\id$. Thus, we also call this to be an almost complex structure.
+\begin{nota}
+	Note that for a vector $v\otimes \lambda \in V_\mathbb{C}$, it is a common practice to sometimes
+	omit the tensor product in the notation, just noting $\lambda v$ instead of $v \otimes \lambda$. If
+	it is possible without confusion, we will also write $I$ instead of $I_\mathbb{C}$ for the complex
+	extension of the almost complex structure.
+\end{nota}
+The following proposition shows how the two $\mathbb{C}$-module structures on $V_\mathbb{C}$,
+defined by the almost complex structure $I$ and by multiplication with $i$, compare to each other.
+\begin{prop}[Decomposition of $V_\mathbb{C}$ {\cite[Lemma 1.2.5]{Huybrechts2004}}]
+	\label{loc-theory:lm:decomposition-of-vc}
+	For the complexification $V_\mathbb{C}$ we have the decomposition 
+	$V_\mathbb{C} = V^{1,0} \oplus V^{0,1}$ with 
+	\begin{align*}
+		V^{1,0} := \left\{v \in V_\mathbb{C} \mid I(v) = iv\right\} \enspace
+		\text{and} \enspace V^{0,1} := \left\{v \in V_\mathbb{C} \mid I(v) =- iv\right\}.
+	\end{align*}
+\end{prop}
+\begin{proof}We extend the proof of the stated lemma in \cite{Huybrechts2004}.
+	Let $v \in V_\mathbb{C}$. It is $v = \frac{1}{2} (v- iI(v)) + \frac{1}{2} (v + iI(v))$. A simple
+	calculation shows
+	\begin{align*}
+		I(v-iI(v)) = I(v) -I(iI(v)) = I(v) - iI^2(v) = I(v) + iv = i(-iI(v) + v)
+	\end{align*}
+	and thus $\frac{1}{2} (v -iI(v)) \in V^{1,0}$. With a similar calculation we obtain 
+	$\frac{1}{2} (v+iI(v)) \in V^{0,1}$. At the same time, it holds to be $V^{1,0} \cap V^{0,1} = \{0\}$. 
+	Thus, the inclusion $V^{1,0} \oplus V^{0,1} \into V_\mathbb{C}$ is injective and with the above
+	calculation, it is also surjective. Hence, it is a canonical isomorphism, so the decomposition is
+	proven.
+\end{proof}
+\begin{rem} We expand the argument in the proof of \cite[Lemma 1.2.5]{Huybrechts2004}.
+	The proof of the last proposition shows that a vector $w \in V^{1,0}$ can be written as 
+	$w = v-iI(v)$ for some $v \in V_\mathbb{C}$. At the same time, we can split $v = x + iy$ 
+	with $x,y \in V$. Then it is 
+	\begin{align*}
+		\overline{w} = \overline{v -iI_\mathbb{C}(v)} &= \overline{x + iy - i (I(x) + iI(y))}\\
+		&= x -iy+iI(x)+I(y) = \overline{v}+ i(I(x) + -iI(y)) = \overline{v} + iI_\mathbb{C}(\overline{v}).
+	\end{align*}
+	Hence it is $\overline{w} \in V^{0,1}$. Similar calculations show that for $w \in V^{0,1}$, it is
+	$\overline{w} \in V^{1,0}$ and $\overline{\widebar{w}} = w$. Since complex conjugation is
+	$\mathbb{R}$-linear, this already proves that $V^{1,0}$ and $V^{0,1}$ are isomorphic as real vector
+	spaces.
+\end{rem}
+\begin{rem}
+	\label{loc-theory:rem:c-linear-c-antilinear}
+	Using the proof of the last proposition and the natural inclusion \linebreak$V \into V_\mathbb{C},\,
+	v \mapsto v \otimes 1$, we can define an $\mathbb{R}$-linear isomorphism 
+	\begin{align*}
+		\varphi_1: (V,I) \rightarrow V^{1,0},\;\enspace v \mapsto \big(v\otimes 1-iI_\mathbb{C}(v\otimes 1)\big).
+	\end{align*}
+	However, we are able to calculate
+	\begin{align*}
+		\varphi_1(I(v)) = I(v) \otimes 1 - iI_\mathbb{C}(I(v) \otimes 1) = I_\mathbb{C}(v \otimes 1)
+		-iI_\mathbb{C}^2(v \otimes 1) = I_\mathbb{C}\big(v\otimes 1 -iI_\mathbb{C}(v\otimes 1)\big).
+	\end{align*}
+	Hence, we obtain $\varphi_1(I(v)) = I_\mathbb{C}(\varphi_1(v)) = i\varphi_1(v)$ because
+	$\varphi_1(v) \in V^{1,0}$. Since the $\mathbb{C}$-module structure on $(V,I)$ is defined using $I$,
+	we know that $\varphi_1$ is also a $\mathbb{C}$-linear isomorphism. At the same time, we are able to
+	define a similar $\mathbb{R}$-linear isomorphism 
+	\begin{align*}
+		\varphi_2: (V,I) \rightarrow V^{0,1} \;\enspace
+		v \mapsto (v \otimes 1 + iI_\mathbb{C}(v \otimes 1)).
+	\end{align*}
+	The same calculation yields $\varphi_2(I(v)) = -i\varphi_2(v)$. Thus, $\varphi_2$ is a
+	$\mathbb{C}$-antilinear isomorphism.
+\end{rem}
+Next, we are going to define an induced almost complex structure on the dual space $V^*$. Because of
+its induced nature, this almost complex structure is also called $I$ and it is defined as a mapping 
+$I: V^* \rightarrow V^*$, such that $I(f)(v) = f(I(v))$ for all $f \in V^*$ and $v \in V$.
+Now, the following lemma ensures the compatibility of the complexification with the dual space of $V$.
+\begin{lm}[{\cite[Lemma 1.2.6]{Huybrechts2004}}]
+	\label{loc-theory:lm:compatibility-of-dual-and-complexification}
+	It is $(V_\mathbb{C})^* = \Hom_\mathbb{R}(V,\mathbb{C}) = (V^*)_\mathbb{C}$ and it also holds to be
+	\begin{alignat*}{2}
+		(V^{1,0})^* &= \left\{f \in \Hom_\mathbb{R}(V,\mathbb{C}) \mid f(I(v)) = if(v)\; \forall v \in V\right\} = (V^*)^{1,0},\\
+		(V^{0,1})^* &= \left\{f \in \Hom_\mathbb{R}(V,\mathbb{C}) \mid f(I(v)) = -if(v)\;  \forall v \in V\right\} = (V^*)^{0,1}.
+	\end{alignat*}
+\end{lm}
+\begin{proof}
+	It is $(V_\mathbb{C})^* = \Hom_\mathbb{C} (V_\mathbb{C}, \mathbb{C})$ and 
+	$(V^*)_\mathbb{C} = \Hom_\mathbb{R} (V, \mathbb{C})$. In order to prove that these two spaces 
+	are equal, we have to prove the existence of a canonical isomorphism 
+	$\Hom_\mathbb{R}(V,\mathbb{C}) \cong \Hom_\mathbb{C} (V_\mathbb{C}, \mathbb{C})$.
+	
+	Let $f \in \Hom_\mathbb{R}(V,\mathbb{C})$ and extend it to an $\mathbb{R}$-linear mapping
+	$\tilde f: V_\mathbb{C} \rightarrow \mathbb{C}$ by setting $\tilde f(v \otimes \lambda): = \lambda
+	f(v)$ for all $v \in V$ and $\lambda \in \mathbb{C}$. This mapping is also $\mathbb{C}$-linear
+	because we can show for all $\mu \in \mathbb{C}$
+	\begin{align*}
+		\tilde f(\mu\cdot(v \otimes \lambda)) = \tilde f (v \otimes \mu\lambda) = \mu\lambda f(v) = \mu
+		\cdot \tilde f (v \otimes \lambda).
+	\end{align*}
+	This shows that for every $f$, we can find a unique $\tilde f \in \Hom_\mathbb{C}(V_\mathbb{C},
+	\mathbb{C})$.\\
+	Let now $g \in \Hom_\mathbb{C}(V_\mathbb{C}, \mathbb{C})$. Using the inclusion 
+	$V \into V_\mathbb{C}$, we can restrict $g$ to obtain a mapping $h: V \rightarrow \mathbb{C}$ 
+	that is defined as $h(v):= g(v \otimes 1)$.
+	Since $g$ was $\mathbb{C}$-linear, $h$ is already an $\mathbb{R}$-linear mapping.
+	
+	This shows that $h \in \Hom_\mathbb{R}(V,\mathbb{C})$, and since those two constructions are
+	obviously inverse to each other, this completes the proof of the first statement.\footnote{This
+		first part of the proof was created using a Math Stack Exchange post of the user \emph{Mark}
+		(\url{https://math.stackexchange.com/users/470733/mark}) that can be found on
+		\url{https://math.stackexchange.com/q/4718935} and was last checked on the 25th of August, 2023.}\\
+	For the second statement, we use \Cref{loc-theory:rem:c-linear-c-antilinear} to get
+	\begin{align*}
+		(V^{1,0})^* = \Hom_\mathbb{C}(V^{1,0},\mathbb{C})&= \Hom_\mathbb{C}((V,I),\mathbb{C}) \\&=
+		\left\{f \in \Hom_\mathbb{R}(V,\mathbb{C}) \mid f(I(v)) = if(v)\; \forall v \in V\right\}.
+	\end{align*}
+	Additionally, for the other subspace, we can use the same remark to obtain
+	\begin{align*}
+		(V^{0,1})^* = \Hom_\mathbb{C}(V^{0,1},\mathbb{C}) &= \Hom_{\overline{\mathbb{C}}}((V,I),
+		\mathbb{C}) \\&= \left\{f \in \Hom_\mathbb{R}(V,\mathbb{C})\mid f(I(v)) = -if(v)\; \forall v \in
+		V\right\}.
+	\end{align*}
+\end{proof}
+\begin{nota}
+	Because of the last lemma, we will only write $V^*_\mathbb{C}$, omitting the brackets from now on.
+\end{nota}
+\subsection{Euclidian and hermitian vector spaces}\;
+
+Later, we are going to define the notion of a hermitian manifold, i.e. a complex manifold whose
+holomorphic tangent space in every point is equipped with a hermitian form. In order to do so, this
+section will cover some fundamental statements about those forms on complex vector spaces.
+
+For the remainder of this section, we are going to assume the following setting.
+\begin{set}
+	Let $(V,g)$ be a real $n$-dimensional euclidean vector space, i.e. $g$ is a positive definite
+	symmetric bilinear form on the real space $V$. Also, assume that $V$ is equipped with an almost
+	complex structure $I$.
+\end{set}
+\begin{defn}
+	The inner product $g$ is said to be \emph{compatible with the almost complex structure} $I$ if it
+	holds to be $g(I(v),I(w)) = g(v,w)$ for all $v,w \in V$.
+\end{defn}
+\begin{nota}
+	If the inner product $g$ on $V$ is compatible with the almost complex structure $I$, we usually
+	only write $(V,g,I)$.
+\end{nota}
+The just-established notion of a compatible inner product gives rise to an additional notion.
+\begin{defn}
+	The \emph{fundamental form} associated to $(V,g,I)$ is defined as the form $\omega \in
+	\bigwedge^2V^* \cap \bigwedge^{1,1} V^*$, such that for all $v,w \in V$ it is
+	\begin{align*}
+		\omega(v,w) := g(I(v),w) = - g(v, I(w)).
+	\end{align*}
+	Note that the second equality is equivalent to $g$ being compatible with the almost complex
+	structure $I$. Also, note that this immediately yields $\omega(I(v),I(w)) = \omega(v,w)$.
+\end{defn}
+\begin{rem}
+	The expression $ \bigwedge^2V^* \cap \bigwedge^{1,1} V^*$ has to be explained. With
+	\Cref{loc-theory:lm:compatibility-of-dual-and-complexification}, we know that 
+	$\bigwedge^2 V^*\subset \bigwedge^2 V_\mathbb{C}^*$. At the same time, it is
+	\begin{align}
+		\label{loc-theory:eq:decomps-of-complex-2-forms}
+		\bigwedge\nolimits^2 V_\mathbb{C}^* = \bigwedge\nolimits^{2,0} V^* \oplus \bigwedge\nolimits^{1,1}
+		V^* \oplus \bigwedge\nolimits^{0,2} V^*
+	\end{align}
+	(cf. \cite[Proposition 1.2.8 (ii), Example 1.2.34]{Huybrechts2004}).
+	and for these reasons, the intersection is meaningful as it happens in $\bigwedge^2V^*_\mathbb{C}$.
+	This expression describes all the alternating real 2-forms of type $(1,1)$, i.e. alternating real
+	2-forms on $V$, that are also $\mathbb{C}$-linear in it's first argument and $\mathbb{C}$-antilinear
+	in its second argument if viewed as forms on $V_\mathbb{C}$.
+\end{rem}
+Now, for the fundamental form $\omega$ from the last definition to be well-defined, we have
+to check whether $\omega$ is indeed an alternating real 2-form on $V$ and is also of type $(1,1)$.
+For the first statement, real bilinearity follows directly with the bilinearity of $g$. Also using the symmetry
+of $g$, we calculate for all $v,w \in V$
+\begin{align*}
+	\omega(v,w) = g(I(v),w) = g(I^2(v),I(w)) = - g(v,I(w)) = - g(I(w),v) = -\omega(w,v).
+\end{align*}
+Hence, $\omega$ is alternating and therefore a real 2-form. With
+\Cref{loc-theory:eq:decomps-of-complex-2-forms}, it suffices to show that the $\mathbb{C}$-bilinear
+extension of $\omega$ vanishes on all pairs of vectors $v,w$ in $V^{1,0}$ or $V^{0,1}$ to
+prove that it is of type $(1,1)$. In the first case, i.e. $v,w \in V^{1,0}$, we calculate
+\begin{align*}
+	\omega(v,w) = \omega(I(v),I(w)) = \omega(iv,iw) = i^2 \omega(v,w)  = -\omega(v,w).
+\end{align*}
+Hence $\omega(v,w) = 0$. The first equation holds because the complex bilinear extension
+inherits this property from the real form $\omega$. The calculation for the other case can be carried out 
+analogously. Hence, $\omega$ is indeed of type $(1,1)$ and this establishes the well-definedness of 
+$\omega$.
+
+For $(V,g,I)$, we can also define a positive definite hermitian form on the complex space $(V,I)$. 
+This form is defined as 
+\begin{align*}
+	h: (V,I) \times (V,I) \rightarrow \mathbb{C},\;\enspace
+	(v,w) \mapsto g(v,w) - i\omega(v,w).
+\end{align*}
+Additionally, the inner product $g$ on $V$ can be extended sesquilinearly to a positive definite
+hermitian form on $V_\mathbb{C}$. This extension is defined as
+\begin{align*}
+	h_\mathbb{C} : V_\mathbb{C} \times V_\mathbb{C} \rightarrow \mathbb{C},\; \enspace 
+	(v \otimes \lambda, w \otimes \mu) \mapsto (\lambda \overline{\mu}) \cdot g(v,w).
+\end{align*}
+See also \cite[p.\,30]{Huybrechts2004} for the similar definitions.
+However, it has to be checked whether these two positive definite hermitian forms are well-defined.
+\begin{prop}[{\cite[Lemma 1.2.15]{Huybrechts2004}}]
+	For $(V,g,I)$, the form $h:= g- i\omega$ is indeed a positive definite
+	hermitian form on $(V,I)$. Also, the extension $h_\mathbb{C}$ of the inner product $g$ defines a
+	positive definite hermitian form on $V_\mathbb{C}$.
+\end{prop}
+\begin{proof}
+	We expand the calculation in the proof of the stated lemma in \cite{Huybrechts2004} and add the
+	argument for our second statement. Let 
+	$v,w \in (V,I)$. It is $h(v,v) = g(v,v) - i \omega(v,v) =g(v,v)$ because $\omega$ is alternating and 
+	therefore $\omega(v,v) = 0$. Since $g$ is positive definite, this proves that $h$ is positive definite 
+	as well. Furthermore, since $g$ is symmetric, it is also
+	\begin{align*}
+		h(v,w) = g(v,w) - i\omega(v,w) = g(w,v) + i\omega(w,v) = \overline{h(w,v)},
+	\end{align*}
+	and it also holds to be
+	\begin{align*}
+		h(I(v),w) &= g(I(v),w) - i\omega(I(v),w) \\&= g(I^2(v),I(w)) -i (g(I^2(v),w)) \\&= -g(v,I(w)) +
+		ig(v,w) \\&= i\big(i g(v,I(w)) + g(v,w)\big) \\&= i\big(- i\omega(v,w) + g(v,w)\big) = i h(v,w).
+	\end{align*}
+	On $(V,I)$, the image under $I$ corresponds to multiplication with $i$ because the
+	$\mathbb{C}$-module structure is defined using the almost complex structure. This proves the 
+	$\mathbb{C}$-linearity in the first	argument, as the $\mathbb{R}$-linearity is already inherited from 
+	$g$ and $\omega$.
+	
+	For the $\mathbb{C}$-antilinearity in the second argument, we combine the last two statements to
+	get
+	\begin{align*}
+		h(v,I(w)) = \overline{h(I(w),v)} = \overline{ih(w,v)} = -ih(v,w).
+	\end{align*} This completes the proof of the first statement. 
+	
+	To prove the second statement, it is already clear by definition that $h_\mathbb{C}$ is 
+	$\mathbb{C}$-linear in its first argument and $\mathbb{C}$-antilinear in its second argument. Let 
+	$(v_1,\dots,v_n)$ be an orthonormal basis of $V$ with respect to the inner product $g$. With the 
+	properties of the tensor product, it is again $(v_1 \otimes 1, \dots, v_n \otimes 1)$ a basis of 
+	$V_\mathbb{C}$. Therefore, we can write every element $u \in V_\mathbb{C}$ as
+	$u = \sum_{j=1}^{n} \lambda_j(v_j \otimes 1)= \sum_{j=1}^{n} v_j \otimes \lambda_j$. We are then
+	able to calculate
+	\begin{align*}
+		h_\mathbb{C}(u,u) = h_\mathbb{C}\Big(\sum_{j=1}^n v_j \otimes \lambda_j, \sum_{k=1}^n v_k \otimes
+		\lambda_k\Big) = \sum_{j,k=1}^{n} \lambda_j\overline\lambda_k g(v_j,v_k) = \sum_{j=1}^n|\lambda_j|^2
+		\geq 0,
+	\end{align*}
+	
+	and $h_\mathbb{C}(u,u) = 0$ if and only if $u = 0$. Hence, $h_\mathbb{C}$ is positive definite.
+	Furthermore, it holds to be
+	\begin{align*}
+		h_\mathbb{C}(v \otimes \lambda,w \otimes \mu) = \lambda \overline{\mu} \cdot  g(v,w) = \overline
+		{\overline \lambda \mu \cdot g(v,w)} = 	\overline{\overline \lambda \mu \cdot g(w,v)} =
+		\overline{h_\mathbb{C} (w \otimes \mu, v \otimes \lambda)}.
+	\end{align*}
+	Thus, $h$ and $h_\mathbb{C}$ are both positive definite hermitian forms.
+\end{proof}
+
+\begin{nota} In \cite[Lemma 1.2.17]{Huybrechts2004}, it is shown that these two hermitian forms only
+	differ by a factor of $\frac{1}{2}$ under the natural inclusion $(V,I) \into V^{1,0}$. This may be a
+	reason for the common practice not to differentiate between $h$ and $h_\mathbb{C}$ in the notation,
+	which we will also adhere to.
+\end{nota}
+\begin{rem}
+	\label{loc-theory:rem:real-of-hermitian-form}
+	In the last proposition, it has been proven that the compatible inner product $g$ already defines a
+	positive definite hermitian form on $(V,I$). Let now $\tilde h$ be an arbitrary positive definite hermitian 
+	form on $(V,I)$. We can define the \emph{real part} of $h$ as follows.
+	\begin{align*}
+		\Re(\tilde h)(v,w) := \frac{1}{2} \big(\tilde h(v,w) + \overline{\tilde h(v,w)}\big) =
+		\frac{1}{2}\big(\tilde h(v,w) + \tilde h(w,v)\big)
+	\end{align*}
+	With the second equality, it is obvious that this defines a real positive definite and symmetric
+	bilinear form on $V$. It is also
+	\begin{align*}
+		\Re(\tilde h)(I(v),I(w)) &= \frac{1}{2} \big(\tilde h(I(v),I(w)) + \tilde h(I(w),I(v))\big)\\&=
+		\frac{1}{2} \big(\tilde h(v,w) + \tilde h(w,v)\big) \\&= \Re(\tilde h)(v,w)
+	\end{align*}
+	and thus $\Re(\tilde h)$ defines a compatible inner product on $V$. Because these constructions are
+	inverse to each other, there is a one-to-one relation between positive definite hermitian forms on
+	$(V,I)$ and inner products on $V$ that are compatible with $I$. See also 
+	\cite[Section. 3.1.1]{Voisin2002} for further information about this relation.
+\end{rem}
+
+Later, we will also need inner products and hermitian forms on the exterior algebra spaces
+$\bigwedge^kV^*$ and $\bigwedge^k V^*_\mathbb{C}$. In the following two lemmas, we are going 
+to construct inner products on $V^*$ and  $\bigwedge^kV$ using the existing inner product $g$ on $V$, 
+and we will eventually use those constructions to define an induced inner product on
+$\bigwedge\nolimits^kV^*$. This construction is inspired by \cite[Section 11]{Schnell2012}, but no
+proofs are provided there.
+
+Before we begin, we need to take a look at the natural linear mapping
+\begin{align*}
+	g^\flat: V \rightarrow V^*, \;v\mapsto g(v,-).
+\end{align*}
+With respect to the inner product $g$, we can choose an orthonormal basis $(v_1,\dots,v_n)$ of $V$.
+For all $r,s \in \mathbb{N}$ with $1 \leq r,s \leq n$, we get
+\begin{align*}
+	g^\flat(v_r)(v_s) = g(v_r,v_s) = \delta_{rs}.
+\end{align*}
+Hence, $g^\flat(v_r) = v^r$ with $v^r$ being the dual basis vector of $v_r$. This already shows that
+$g^\flat$ is an isomorphism. Let now $g^\sharp: V^* \rightarrow V$ denote the inverse mapping of
+$g^\flat$. Using this mapping, we get the following lemma.
+\begin{lm}
+	\label{loc-theory:lm:product-on-dual-space}
+	The inner product $g$ on $V$ induces an inner product on $V^*$. It is defined \nolinebreak as 
+	\begin{align*}
+		\tilde{g}: V^* \times V^* \rightarrow \mathbb{R},\; \enspace
+		(v,w) \mapsto g\big(g^\sharp(v),g^\sharp(w)\big).
+	\end{align*}
+\end{lm}
+\begin{proof}
+	It is obvious that $\tilde{g}$ defines a bilinear mapping. Let now $(v_1,\dots,v_n)$ be an
+	orthonormal basis of $V$ again. Also let $(v^1,\dots,v^n)$ denote the corresponding dual basis of
+	$V^*$. If only evaluated on those dual basis vectors, $\tilde g$ simplifies as
+	\begin{align*}
+		\tilde{g}(v^r,v^s) = g(g^\sharp(v^r), g^\sharp(v^s)) = g(v_r,v_s).
+	\end{align*}
+	Thus, $\tilde{g}$ directly inherits the inner product properties from \nolinebreak$g$.
+\end{proof}
+\begin{lm}
+	\label{loc-theory:lm:product-on-exterior-algebra}
+	The inner product $g$ on $V$ induces an inner product on $\bigwedge\nolimits^kV$, which is defined as
+	\begin{align*}
+		g_k: \bigwedge\nolimits^kV \times \bigwedge\nolimits^kV &\rightarrow \mathbb R\\
+		\big(v_1 \wedge \dots \wedge v_k, w_1\wedge\dots \wedge w_k\big) &\mapsto
+		\det\Big(\big(g(v_r,w_s)\big)_{rs}\Big).
+	\end{align*}
+\end{lm}
+\begin{proof}
+	With the multilinearity of the determinant, it is again obvious that $g_k$ is a bilinear mapping.
+	Since the determinant is invariant under transposition, $g_k$ is also symmetric. Let now 
+	$(v_1,\dots,v_n)$ be an orthonormal basis of $V$ again. We know that this induces a basis 
+	$(v_J)_J$ of $\bigwedge^k V$. (cf. \cite[Proposition 14.8]{Lee2012}.) If we only evaluate $g_k$ 
+	on these basis vectors again, we get
+	\begin{align*}
+		g_k(v_J,v_K) = \det\Big(\big(g(v_{j_r}, v_{k_s})\big)_{rs}\Big) =
+		\delta_{JK}.
+	\end{align*}
+	This is because if $J \neq K$, there is at least one $j_l \in J$ such that $j_l \not\in K$. Thus we
+	obtain $g(v_{j_l}, v_{\tilde{k}}) = 0$ for all $\tilde{k} \in K$. Hence, the $l$-th column of the 
+	matrix $G:=\big(g(v_{j_r},v_{k_s})\big)_{rs}$ is everywhere zero and therefore 
+	$\det(G) = 0$.  If $J$ and $K$ are equal however, then it is $G = \id_k$ and therefore 
+	$\det(G) = 1$. With this, we have for all $\alpha := \sum_{J} \alpha_J v_J\in \bigwedge^k V$
+	\begin{align*}
+		g_k(\alpha,\alpha) = \sum_{J}  \alpha_J^2\, g_k(v_J,v_J) = \sum_{J} \alpha_J^2  \geq 0.
+	\end{align*}
+	This calculation also implies that $g_k(\alpha,\alpha) = 0$ if and only if $\alpha = 0$. Thus, the
+	statement is proven.
+\end{proof}
+The combination of the last two lemmas finally gives us an inner product on
+$\bigwedge\nolimits^kV^*$.
+\begin{cor}
+	\label{loc-theory:cor:induced-product-on-exterior-algebra}
+	The induced inner product on $\bigwedge^kV^*$ is given as
+	\begin{align*}
+		\tilde{g}_k: \bigwedge^kV^* \times \bigwedge^kV^* &\rightarrow \mathbb{R}\\
+		\big(v^1 \wedge \dots \wedge v^k, w^1\wedge\dots \wedge w^k\big) &\mapsto
+		\det\Big(\big(g(g^\sharp(v^j),g^\sharp(w^k))\big)_{jk}\Big).
+	\end{align*}
+\end{cor}
+\begin{rem}
+	\label{loc-theory:rem:preserving-orthonormality}
+	The two proofs of
+	\Cref{loc-theory:lm:product-on-dual-space,loc-theory:lm:product-on-exterior-algebra}
+	also show that the induced inner products preserve orthonormality, i.e. for an orthonormal basis 
+	$(v_1,\dots,v_n)$ of $V$, the induced bases $(v^1,\dots,v^n)$ of $V^*$ and $(v_J)_{J}$ of 
+	$\bigwedge^k V$ are also orthonormal with respect to the induced inner products. Since \Cref{loc-theory:cor:induced-product-on-exterior-algebra} just combines these inner products, 
+	this property also holds for the induced inner product $\tilde{g}_k$ on $\bigwedge\nolimits^kV^*$.
+\end{rem}
+
+\begin{rem}
+	\label{loc-theory:rem:hermitian-form-on-exterior-algebra}
+	Similar to the construction of the positive definite hermitian form on $V_\mathbb{C}$, we are able
+	to obtain positive definite hermitian forms $\tilde{h}_k$ on the exterior algebra spaces
+	$\bigwedge\nolimits^kV_\mathbb{C}^*$, by extending the inner products $\tilde{g}_k$ sesquilinearly
+	(cf. \cite[p.\,33]{Huybrechts2004}).
+\end{rem}
+
+\begin{nota}
+	It is common practice to only write $g$ and $h$ for all these inner products and hermitian forms,
+	respectively. This is because they have similar properties and since they are all defined on different 
+	spaces, it should always be clear from the context which form is meant.
+\end{nota}
+
+\subsection{Local operators}\;
+
+The next section will focus on the definition of some essential operators. These are initially
+defined as local operators on vector spaces but are going to be used on vector bundles later.
+However, most of their properties can already be shown locally.
+
+Therefore, we will assume the following setting for the remainder of this section.
+\begin{set}
+	Let $(V,g, I)$ be an euclidean vector space of dimension $n$ with a compatible almost complex
+	structure. Also, let $\omega$ denote the fundamental form associated with $g$ and let $h$ denote
+	the induced hermitian forms on $(V,I)$ and $V_\mathbb{C}$. The existence of the almost complex
+	structure $I$ ensures $n = 2m$ fore some $m \in \mathbb{N}$.
+\end{set}
+\begin{defn}[Lefschetz operator]
+	With $\omega$ the associated fundamental form to $(V,g,I)$, the real \emph{Lefschetz operator} is
+	defined as the linear mapping
+	\begin{align*}
+		L: \bigwedge\nolimits^k V^* \rightarrow \bigwedge\nolimits^{k+2} V^*,\;\enspace
+		\alpha \mapsto \omega \wedge \alpha.
+	\end{align*}
+	The complex \emph{Lefschetz operator} on $\bigwedge\nolimits^kV^*_\mathbb{C}$ is then
+	defined as the $\mathbb{C}$-linear extension $L_\mathbb{C}: \bigwedge\nolimits^k V^*_\mathbb{C}
+	\rightarrow \bigwedge\nolimits^{k+2} V^*_\mathbb{C}$, i.e. $L_\mathbb{C}(\beta) = \omega \wedge
+	\beta$ for all $\beta \in \bigwedge\nolimits^{k+2} V^*_\mathbb{C}$.
+\end{defn}
+\begin{rem}
+	Note that $\omega \in \bigwedge\nolimits^2 V^* \cap \bigwedge\nolimits^{1,1}
+	V^*\subset\bigwedge\nolimits^2V_\mathbb{C}^*$ and this is the reason for these two wedge products 
+	to be both meaningful. Also, we have to keep in mind that the definition of this operator depends on the 
+	fundamental form $\omega$, which itself depends on the choice of the inner product $g$.
+	
+	Furthermore, due to  the fundamental form $\omega$ being of type $(1,1)$, it is apparent that the
+	restriction of $L_\mathbb{C}$ to forms of type $(p,q)$ behaves like 
+	$L: \bigwedge\nolimits^{p,q} V^* \rightarrow \bigwedge\nolimits^{p+1,q+1}V^*$
+	and thus the complex Lefschetz operator preserves the revised structure of 
+	$\bigwedge\nolimits^k V_\mathbb{C}^* = \bigoplus_{p+q=k}\bigwedge\nolimits^{p,q}V^*$ 
+	(cf. \cite[Proposition 1.2.8 (ii)]{Huybrechts2004}).
+\end{rem}
+
+In linear algebra, we have the notion of an adjoint operator with respect to an inner product on a
+vector space. Therefore, we can use our induced inner product on the exterior algebra spaces
+$\bigwedge\nolimits^kV^*$ to define the dual of the Lefschetz operator.
+\begin{defn}
+	The \emph{dual Lefschetz operator} $\Lambda$ is defined as the adjoint operator of $L$ with respect
+	to the inner product $g$, i.e. the uniquely defined mapping
+	\begin{align*}
+		\Lambda: \bigwedge\nolimits^{k+2} V^* \rightarrow \bigwedge\nolimits^{k} V^*,
+	\end{align*}
+	such that for all $\alpha \in \bigwedge\nolimits^{k+2} V^*$ and $\beta \in \bigwedge\nolimits^{k}V^*$,
+	it is $g(\Lambda(\alpha), \beta) = g(\alpha,L(\beta))$.
+\end{defn}
+\begin{rem}
+	Note that this operator is indeed uniquely defined because of the non-degeneracy of the inner
+	product $g$. This is because if we let $\alpha \in \bigwedge\nolimits^{k+2} V^*$ and assume there 
+	would be a second operator $\widetilde{\Lambda}$ admitting the same adjunction property, such 
+	that $\Lambda(\alpha) \neq \widetilde{\Lambda}(\alpha)$, it would be for all 
+	$\beta \in \bigwedge\nolimits^k V^*$
+	\begin{align*}
+		g(\Lambda(\alpha) - \widetilde{\Lambda}(\alpha), \beta) = g\left(\Lambda (\alpha), \beta\right) -
+		g(\widetilde{\Lambda}(\alpha),\beta) = g(\alpha, L(\beta)) - g(\alpha, L(\beta)) = 0.
+	\end{align*}
+	Thus, the non-degeneracy of $g$ can be used to obtain $\Lambda (\alpha)-\widetilde{\Lambda}(\alpha) = 0$,
+	which is a contradiction to our assumption.
+\end{rem}
+To properly define the next operator now, it is necessary to discuss the existence of a volume
+element in $\bigwedge^n V^*$ first.
+\begin{rem}
+	\label{loc-theory:volume-form-locally}
+	We already know that $V$ has a natural orientation, which we are going to call $\sigma$ for now.
+	As mentioned in \cite[p.\,83 below Theorem 4-6]{Spivak1965}, there exists a unique volume form 
+	$\vol \in \bigwedge^nV^*$, such that $\vol(v_1, \dots, v_n)= 1$ whenever $(v_1, \dots, v_n)$ is 
+	an orthonormal basis of $V$ that is positively orientated with respect to $\sigma$. This volume form can 
+	be given as $\vol = v^1 \wedge \dots \wedge v^n$.
+	
+	Now, we want to show that $\vol = \frac{1}{m!} \omega^m$. %with $\omega \in \bigwedge^2 V^*$
+	%being the fundamental form associated to $(V,g,I)$.
+	Therefore, let $(w_1,\dots,w_m)$ be a complex orthonormal basis of $(V,I)$ with respect to the
+	hermitian form $h$. A simple calculation proves that the induced real basis $(w_1,I(w_1),\dots,w_m,I(w_m))$ 
+	is orthonormal with respect to the inner product $g$ on $V$. We can calculate for all $w_j$ and $w_k$
+	\begin{align*}
+		\omega(w_j,I(w_k)) = g(I(w_j),I(w_k)) = g(w_j,w_k) = \delta_{jk}
+	\end{align*}
+	and also
+	\begin{align*}
+		\omega(w_j,w_k) = g(I(w_j),w_k) = 0.
+	\end{align*}
+	Let $I(w_j)^*$ denote the dual basis vector of $I(w_j)$. With the above calculation, we conclude
+	that $\omega = \sum_{j=1}^{m} w^j \wedge I(w_j)^*$ and therefore it is
+	\begin{align*}
+		\omega^m = \Big(\sum_{j=1}^{m} w^j \wedge I(w_j)^*\Big)^m= m! \cdot \big(w^1 \wedge I(w_1)^*\big)
+		\wedge \dots \wedge \big(w^m\wedge I(w_m)^*\big) 
+		= m! \cdot \vol.
+	\end{align*}
+\end{rem}
+This concludes our collection of the necessary elements to define the Hodge star operator.
+\begin{defn}[Hodge star operator]
+	The \emph{Hodge star operator} on $\bigwedge^k V^*$ is defined as a linear mapping 
+	$\hodgestar: \bigwedge^k V^* \rightarrow \bigwedge^{n-k}V^*$, such that for all 
+	$\alpha,\beta \in\bigwedge^kV^*$, it is
+	\begin{align}
+		\label{loc-theory:eq:hodge-star}
+		\alpha \wedge \hodgestar\beta = g(\alpha,\beta) \cdot \vol.
+	\end{align}
+	The $(n-k)$ form $\hodgestar \beta$ is called the \emph{Hodge dual} of $\beta$.
+\end{defn}
+Note that \Cref{loc-theory:eq:hodge-star} uniquely defines the Hodge dual because for $r,s \in
+\mathbb{N}$ with $r + s = n$, the exterior product defines a non-degenerate pairing 
+\begin{align*}
+	\bigwedge\nolimits^r V^* \times \bigwedge\nolimits^s V^* \rightarrow \bigwedge\nolimits^{n} V^*.
+\end{align*}
+
+To show that such an operator exists, we choose an orthonormal basis $(v_1,\dots,v_n)$ of 
+$V$ that is positively oriented with respect to the natural orientation of $V$. With
+\Cref{loc-theory:rem:preserving-orthonormality}, we already know that the induced basis $(v^J)_{J}$ of
+$\bigwedge^kV^*$ is orthonormal as well. For an arbitrary permutation $\tau \in S_n$, we set the Hodge star
+operator to map as follows:
+\begin{align}
+	\label{loc-theory:eq:explicit-hodge-star}
+	\hodgestar\big(v^{\tau(1)}\wedge\dots\wedge v^{\tau(k)}\big) = \sign(\tau) \cdot \;v^{\tau(k+1)}
+	\wedge\dots\wedge v^{\tau(n)}.
+\end{align}
+With this definition, it is
+\begin{align*}
+	v^{\tau(1)}\wedge\dots\wedge v^{\tau(k)} \wedge \hodgestar\big(v^{\tau(1)}\wedge\dots\wedge v^{\tau(k)}\big) &= \sign(\tau) \cdot v^{\tau(1)} \wedge\dots\wedge v^{\tau(n)}\\
+	&= \sign(\tau)^2\cdot v^1\wedge \dots \wedge v^n \\&= 1 \cdot \vol.
+\end{align*}
+At the same time, it is for all $v^{j_1}\wedge\dots\wedge v^{j_k} \neq \pm v^{\tau(1)}\wedge\dots\wedge v^{\tau(k)}$
+\begin{align*}
+	v^{j_1}\wedge\dots\wedge v^{j_k} \wedge  \hodgestar\big(v^{\tau(1)}\wedge\dots\wedge
+	v^{\tau(k)}\big) = 0.
+\end{align*} This is because if we assume without loss of generality that $j_1\neq\dots\neq j_k$,
+then there exists at least one $s\in\mathbb{N}$ with $(k+1) \leq s \leq n$, such that $\tau(s) \in \{j_1,\dots,j_k\}$.
+This shows that the above mapping indeed explicitly defines the Hodge star. See also \cite[p.\,56f]{Schnell2012}, 
+where we have later discovered a very similar calculation.
+\begin{prop}[Properties of the Hodge star {\cite[Proposition 1.2.20]{Huybrechts2004}}]\;\\
+	\label{loc-theory:lm:property-hodge-star}
+	Among others, the Hodge star operator has the following properties:
+	\begin{enumerate}
+		\item The Hodge star operator on $\bigwedge^kV^*$ is an isometric isomorphism, i.e. it is
+		bijective and for all $\alpha, \beta \in \bigwedge^kV^*$, it is $g(\alpha,\beta) = g(\hodgestar\alpha,\hodgestar\beta)$.
+		\item For all $\alpha \in \bigwedge^kV^*$, it is $\hodgestar^2\alpha = (-1)^k \alpha$. In particular, it is
+		$\hodgestar^{-1} = (-1)^k \hodgestar$.
+		\label{loc-theory:lm:property-hodge-star-one}
+	\end{enumerate}
+\end{prop}
+\begin{proof}
+	With the explicit definition in \Cref{loc-theory:eq:explicit-hodge-star}, it is quite easy to determine
+	that the Hodge star operator maps any orthonormal basis to an orthonormal basis, and this proves
+	property (1).
+	For the proof of property (2), we use a local version of the calculation in  \cite[Lemma 5.5]{Voisin2002}. 
+	We can apply property (1) and calculate for all $\alpha,\beta \in\bigwedge^kV^*$
+	\begin{align*}
+		\alpha\wedge\hodgestar\beta = g(\alpha, \beta) \cdot \vol = g(\hodgestar\alpha,\hodgestar\beta)
+		\cdot \vol = g(\hodgestar\beta,\hodgestar\alpha) \cdot \vol = \hodgestar\beta \wedge \hodgestar^2
+		\alpha.
+	\end{align*}
+	With $n-(n-k) = k$, we know $\hodgestar^2 \alpha$ is a $k$-form again. As $\hodgestar\beta$ is a
+	$(n-k)$ form, we obtain
+	\begin{align*}
+		\hodgestar\beta \wedge \hodgestar^2\alpha &= (-1)^{k(n-k)} \hodgestar^2 \alpha \wedge \hodgestar
+		\beta \\&= (-1)^{k(2m-k)} \hodgestar^2\alpha\wedge\hodgestar\beta\\ &= (-1)^k \hodgestar^2 \alpha
+		\wedge \hodgestar\beta.
+	\end{align*}
+	Given that this holds for all $\beta \in \bigwedge^kV^*$, the second property is already proven.
+\end{proof}
+Additionally, there is an interesting relation between the Hodge star operator and the Lefschetz and
+dual Lefschetz operators, which is going to be useful later.
+\begin{lm}[{\cite[Lemma 1.2.23]{Huybrechts2004}}]
+	\label{loc-theory:lm:formula-for-the-dual-lefschetz-operator}
+	For $\alpha \in \bigwedge^{k+2} V^*$ the image under the dual Lefschetz operator $\Lambda$ can be
+	explicitly calculated as
+	\begin{align*}
+		\Lambda (\alpha) = \big(\hodgestar^{-1} \circ \,L \circ \hodgestar\big)(\alpha) = \big( (-1)^k
+		\hodgestar \circ \,L \circ \hodgestar \big)(\alpha).
+	\end{align*}
+\end{lm}
+\begin{proof} We expand the proof of the given lemma in \cite{Huybrechts2004}.
+	Let $\beta \in \bigwedge^kV^*$. Using the definition of the Hodge star and the definition of the 
+	Lefschetz operator, we can calculate
+	\begin{align*}
+		g(\alpha, L\beta)\cdot \vol = g(L\beta,\alpha) \cdot \vol = L\beta \wedge \hodgestar \alpha =
+		\omega \wedge \beta \wedge \hodgestar \alpha.
+	\end{align*}
+	As $\omega$ is a $2$-form and the wedge product is associative, we have
+	\begin{align*}
+		g(\alpha, L\beta)\cdot \vol  = (-1)^{2k} \beta \wedge \omega \wedge \hodgestar\alpha = \beta
+		\wedge (\omega \wedge \hodgestar\alpha).
+	\end{align*}
+	Applying the definition of the Lefschetz operator again and using the definition of the Hodge star
+	operator yields 
+	\begin{align*}
+		g(\alpha, L\beta)\cdot \vol  &=\beta \wedge L (\hodgestar \alpha) \\
+		&=  \beta \wedge (\hodgestar \hodgestar^{-1}) L (\hodgestar \alpha) \\
+		&= \beta \wedge \hodgestar (\hodgestar^{-1} (L (\hodgestar \alpha))) \\
+		&= g\big(\beta, (\hodgestar^{-1}( L (\hodgestar \alpha)))\big) \cdot \vol \\
+		&=g(\hodgestar^{-1} (L (\hodgestar \alpha)), \beta)\cdot\vol.
+	\end{align*}
+	Thus, we have shown the equality 
+	$g(\Lambda \alpha, \beta) = g(\alpha,L\beta) = g(\hodgestar^{-1}(L(\hodgestar \alpha)), \beta)$. 
+	Since this holds for all $k$-forms $\beta$, the non-degeneracy of $g$ proves the first equality 
+	of the statement. The second equality then follows directly with
+	\creflmpart{loc-theory:lm:property-hodge-star}{loc-theory:lm:property-hodge-star-one}.  % see custom command in main_thesis
+\end{proof}
+Similar to the $\mathbb{C}$-linear extension of the Lefschetz operator, we will also need the
+$\mathbb{C}$-linear extension of the Hodge star operator. 
+\begin{defn}
+	The $\mathbb{C}$-linear extension of the Hodge star 
+	$\hodgestar_\mathbb{C} :\bigwedge^kV_\mathbb{C}^* \rightarrow \bigwedge^{n-k} V_\mathbb{C}^*$ 
+	is defined such that for all $\alpha,\beta \in \bigwedge^kV^*_\mathbb{C}$, we have
+	\begin{align*}
+		\alpha \wedge \hodgestar_\mathbb{C}\overline{\beta} = h(\alpha, \beta) \cdot \vol.
+	\end{align*}
+	Note that this expression is meaningful because 
+	$\vol = \frac{1}{m!} \omega^m \in \bigwedge^nV^*\cap \bigwedge^{m,m}V^*$.
+	Since the hermitian form $h$ on $\bigwedge^kV_\mathbb{C}^*$ was previously defined as the
+	sesquilinear extension of the inner product $g$ on $\bigwedge^kV^*$, it is immediate that this is indeed 
+	the $\mathbb{C}$-linear extension of the real Hodge star operator.
+\end{defn}
+There is also the $\mathbb{C}$-linear extension 
+$\Lambda_\mathbb{C}: \bigwedge^{k+2}V_\mathbb{C}^*\rightarrow \bigwedge^{k} V_\mathbb{C}^*$
+of the dual Lefschetz operator. Using the explicit formula in 
+\Cref{loc-theory:lm:formula-for-the-dual-lefschetz-operator}, this extension is given as
+\begin{align*}
+	\Lambda_\mathbb{C} = (-1)^k \hodgestar_\mathbb{C} \circ L_\mathbb{C} \circ \hodgestar_\mathbb{C}.
+\end{align*}
+We can use the same calculation as in the proof of \Cref{loc-theory:lm:formula-for-the-dual-lefschetz-operator} 
+to show that this is indeed the adjoint operator to $L$ with respect to the hermitian form $h$.
+\begin{nota}
+	It is common practice to abuse the notation, denoting the complex extensions 
+	$L_\mathbb{C},\hodgestar_\mathbb{C}$ and $\Lambda_\mathbb{C}$ as $L, \hodgestar$ 
+	and $\Lambda$, respectively.
+\end{nota}
